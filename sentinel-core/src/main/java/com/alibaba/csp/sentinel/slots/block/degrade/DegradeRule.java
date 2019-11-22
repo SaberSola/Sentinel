@@ -51,6 +51,8 @@ import java.util.concurrent.atomic.AtomicLong;
  * </li>
  * </ul>
  *
+ * 熔断降级规则
+ *
  * @author jialiang.linjl
  */
 public class DegradeRule extends AbstractRule {
@@ -68,17 +70,17 @@ public class DegradeRule extends AbstractRule {
     /**
      * RT threshold or exception ratio threshold count.
      */
-    private double count;
+    private double count; //阈值
 
     /**
      * Degrade recover timeout (in seconds) when degradation occurs.
      */
-    private int timeWindow;
+    private int timeWindow;  //降级的时间，单位为 s
 
     /**
      * Degrade strategy (0: average RT, 1: exception ratio, 2: exception count).
      */
-    private int grade = RuleConstant.DEGRADE_GRADE_RT;
+    private int grade = RuleConstant.DEGRADE_GRADE_RT; //熔断策略，支持秒级 平均响应时间/秒级异常比例/分钟级异常数
 
     /**
      * Minimum number of consecutive slow requests that can trigger RT circuit breaking.

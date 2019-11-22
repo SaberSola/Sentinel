@@ -24,17 +24,23 @@ import com.alibaba.csp.sentinel.slotchain.ResourceWrapper;
 
 /**
  * Linked entry within current context.
- *
+ * 上下文存储的entry
  * @author jialiang.linjl
  * @author Eric Zhao
+ *
+ * Entry可以理解为对资源的获取和释放的一个凭证，记录获取到这个资源的相关信息。
+ * 在用一个Context中多次进入获取资源会形成调用链，Entry通过parent和child属性实现。
+ * 在创建Entry的时候会将当前的Entry对象赋值给Context的curEntry
+ * 在释放Entry的时候，一定要按照调用链从最后一个Entry开始释放
+ *
  */
 class CtEntry extends Entry {
 
-    protected Entry parent = null;
-    protected Entry child = null;
+    protected Entry parent = null; //父节点
+    protected Entry child = null;  //当前entry的子节点
 
-    protected ProcessorSlot<Object> chain;
-    protected Context context;
+    protected ProcessorSlot<Object> chain; //调用链
+    protected Context context;    //entry所在的上下文
 
     CtEntry(ResourceWrapper resourceWrapper, ProcessorSlot<Object> chain, Context context) {
         super(resourceWrapper);

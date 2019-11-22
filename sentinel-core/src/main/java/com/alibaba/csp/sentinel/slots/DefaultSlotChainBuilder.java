@@ -32,6 +32,7 @@ import com.alibaba.csp.sentinel.slots.system.SystemSlot;
  *
  * @author qinan.qn
  * @author leyou
+ * 默认
  */
 public class DefaultSlotChainBuilder implements SlotChainBuilder {
 

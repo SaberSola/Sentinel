@@ -31,7 +31,7 @@ import com.alibaba.csp.sentinel.transport.config.TransportConfig;
 
 /**
  * Global init function for heartbeat sender.
- *
+ * 初始化心跳发送线程
  * @author Eric Zhao
  */
 @InitOrder(-1)
@@ -49,7 +49,7 @@ public class HeartbeatSenderInitFunc implements InitFunc {
 
     @Override
     public void init() {
-        HeartbeatSender sender = HeartbeatSenderProvider.getHeartbeatSender();
+        HeartbeatSender sender = HeartbeatSenderProvider.getHeartbeatSender();//初始化
         if (sender == null) {
             RecordLog.warn("[HeartbeatSenderInitFunc] WARN: No HeartbeatSender loaded");
             return;
@@ -57,7 +57,7 @@ public class HeartbeatSenderInitFunc implements InitFunc {
 
         initSchedulerIfNeeded();
         long interval = retrieveInterval(sender);
-        setIntervalIfNotExists(interval);
+        setIntervalIfNotExists(interval);//设置心跳时长
         scheduleHeartbeatTask(sender, interval);
     }
 
@@ -88,7 +88,7 @@ public class HeartbeatSenderInitFunc implements InitFunc {
             @Override
             public void run() {
                 try {
-                    sender.sendHeartbeat();
+                    sender.sendHeartbeat();//发送心跳
                 } catch (Throwable e) {
                     RecordLog.warn("[HeartbeatSender] Send heartbeat error", e);
                 }

@@ -26,7 +26,7 @@ public abstract class AbstractRule implements Rule {
     /**
      * Resource name.
      */
-    private String resource;
+    private String resource;//资源名称
 
     /**
      * <p>
@@ -37,7 +37,7 @@ public abstract class AbstractRule implements Rule {
      * For authority rules, multiple origin name can be separated with comma (',').
      * </p>
      */
-    private String limitApp;
+    private String limitApp; // 流控针对的调用来源	default代表不区分来源
 
     public String getResource() {
         return resource;

@@ -28,25 +28,37 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * <p>The statistic node keep three kinds of real-time statistics metrics:</p>
+ *     统计节点保留三种实时统计指标
+ *
  * <ol>
- * <li>metrics in second level ({@code rollingCounterInSecond})</li>
- * <li>metrics in minute level ({@code rollingCounterInMinute})</li>
+ * <li>metrics in second level ({@code rollingCounterInSecond})</li> 秒级别
+ * <li>metrics in minute level ({@code rollingCounterInMinute})</li> 分钟
  * <li>thread count</li>
  * </ol>
  *
  * <p>
- * Sentinel use sliding window to record and count the resource statistics in real-time.
- * The sliding window infrastructure behind the {@link ArrayMetric} is {@code LeapArray}.
+ *   Sentinel use sliding window to record and count the resource statistics in real-time.
+ *   The sliding window infrastructure behind the {@link ArrayMetric} is {@code LeapArray}.
  * </p>
- *
+ * <p>
+ *    Sentinel使用滑动窗口实时记录和统计资源统计信息。
+ *    后面的滑动窗口基础结构是 LeapArray。
+ * </p>
  * <p>
  * case 1: When the first request comes in, Sentinel will create a new window bucket of
  * a specified time-span to store running statics, such as total response time(rt),
  * incoming request(QPS), block request(bq), etc. And the time-span is defined by sample count.
  * </p>
+ *
+ * <p>
+ *   情况1：收到第一个请求时，Sentinel将创建一个新的
+ *   指定的时间范围来存储运行中的静态信息，例如总响应时间（rt），
+ *   传入请求（QPS），拒绝请求（bq）等。时间跨度由样本计数定义。
+ * </p>
+ *
  * <pre>
  * 	0      100ms
- *  +-------+--→ Sliding Windows
+ *  +-------+--→ Sliding Windows  滑动窗口
  * 	    ^
  * 	    |
  * 	  request
@@ -56,7 +68,11 @@ import java.util.concurrent.ConcurrentHashMap;
  * For example, if a rule defines that only 100 requests can be passed,
  * it will sum all qps in valid buckets, and compare it to the threshold defined in rule.
  * </p>
- *
+ * <p>
+ * Sentinel使用有令牌桶的静态参数来确定是否可以传递此请求。
+ *        例如，如果规则定义只能传递100个请求，
+ *        它将对所有有效桶中的所有qps求和，并将其与rule中定义的阈值进行比较。
+ * </p>
  * <p>case 2: continuous requests</p>
  * <pre>
  *  0    100ms    200ms    300ms
@@ -67,6 +83,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * </pre>
  *
  * <p>case 3: requests keeps coming, and previous buckets become invalid</p>
+ *
+ * <p>case 3: 时间窗滑动请求不断出现，令牌筒子失效</p>
+ *
  * <pre>
  *  0    100ms    200ms	  800ms	   900ms  1000ms    1300ms
  *  +-------+-------+ ...... +-------+-------+ ...... +-------+-----→ Sliding Windows
@@ -105,7 +124,7 @@ public class StatisticNode implements Node {
     /**
      * The counter for thread count.
      */
-    private LongAdder curThreadNum = new LongAdder();
+    private LongAdder curThreadNum = new LongAdder();//线程数
 
     /**
      * The last timestamp when metrics were fetched.

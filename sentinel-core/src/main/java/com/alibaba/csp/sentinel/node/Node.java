@@ -25,7 +25,8 @@ import com.alibaba.csp.sentinel.util.function.Predicate;
 
 /**
  * Holds real-time statistics for resources.
- *
+ * Node中保存了对资源的实时数据的统计，Sentinel中的限流或者降级等功能就是通过Node中的数据进行判断的。
+ * Node是一个接口，里面定义了各种操作request、exception、rt、qps、thread的方法。
  * @author qinan.qn
  * @author leyou
  * @author Eric Zhao

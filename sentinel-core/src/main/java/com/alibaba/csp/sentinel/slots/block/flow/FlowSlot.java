@@ -135,6 +135,9 @@ import com.alibaba.csp.sentinel.util.function.Function;
  *
  * @author jialiang.linjl
  * @author Eric Zhao
+ *
+ * 这个 slot 主要根据预设的资源的统计信息，按照固定的次序，依次生效。
+ * 如果一个资源对应两条或者多条流控规则，则会根据如下次序依次检验，直到全部通过或者有一个规则生效为止:
  */
 public class FlowSlot extends AbstractLinkedProcessorSlot<DefaultNode> {
 

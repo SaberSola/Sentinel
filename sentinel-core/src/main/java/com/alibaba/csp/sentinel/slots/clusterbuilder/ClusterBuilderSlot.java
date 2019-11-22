@@ -42,6 +42,8 @@ import com.alibaba.csp.sentinel.slotchain.StringResourceWrapper;
  * default nodes.
  * </p>
  *
+ * 此插槽用于构建资源的 ClusterNode 以及调用来源节点。ClusterNode 保持某个资源运行统计信息（响应时间、QPS、block 数目、线程数、异常数等）以及调用来源统计信息列表。
+ * 调用来源的名称由 ContextUtil.enter(contextName，origin) 中的 origin 标记
  * @author jialiang.linjl
  */
 public class ClusterBuilderSlot extends AbstractLinkedProcessorSlot<DefaultNode> {

@@ -23,6 +23,7 @@ import com.alibaba.csp.sentinel.transport.CommandCenter;
 
 /**
  * @author Eric Zhao
+ *
  */
 @InitOrder(-1)
 public class CommandCenterInitFunc implements InitFunc {

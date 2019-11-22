@@ -121,6 +121,10 @@ import java.util.Map;
  * @author jialiang.linjl
  * @see EntranceNode
  * @see ContextUtil
+ *
+ *
+ * 这个 slot 主要负责收集资源的路径，并将这些资源的调用路径以树状结构存储起来，
+ * 用于根据调用路径进行流量控制
  */
 public class NodeSelectorSlot extends AbstractLinkedProcessorSlot<Object> {
 

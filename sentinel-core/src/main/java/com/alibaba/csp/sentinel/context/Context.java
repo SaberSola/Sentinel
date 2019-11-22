@@ -25,7 +25,7 @@ import com.alibaba.csp.sentinel.slots.nodeselector.NodeSelectorSlot;
 
 /**
  * This class holds metadata of current invocation:<br/>
- *
+ * 当前调用源数据的上下文
  * <ul>
  * <li>the {@link EntranceNode}: the root of the current invocation
  * tree.</li>
@@ -48,35 +48,37 @@ import com.alibaba.csp.sentinel.slots.nodeselector.NodeSelectorSlot;
  * Same resource in different context will count separately, see {@link NodeSelectorSlot}.
  * </p>
  *
+  当前数据源的上下文
  * @author jialiang.linjl
  * @author leyou(lihao)
  * @author Eric Zhao
  * @see ContextUtil
  * @see NodeSelectorSlot
+ *
  */
 public class Context {
 
     /**
      * Context name.
      */
-    private final String name;
+    private final String name; //context的名称
 
     /**
      * The entrance node of current invocation tree.
      */
-    private DefaultNode entranceNode;
+    private DefaultNode entranceNode;//当前调用链的入口节点
 
     /**
      * Current processing entry.
      */
-    private Entry curEntry;
+    private Entry curEntry; //当前调用链此刻的是哪一个Entry对象在执行
 
     /**
      * The origin of this context (usually indicate different invokers, e.g. service consumer name or origin IP).
      */
-    private String origin = "";
+    private String origin = "";//调用源名称
 
-    private final boolean async;
+    private final boolean async;//异步同步标志
 
     /**
      * Create a new async context.

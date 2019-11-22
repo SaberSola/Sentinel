@@ -36,20 +36,21 @@ import com.alibaba.csp.sentinel.slots.block.AbstractRule;
  * @author jialiang.linjl
  * @author Carpenter Lee
  * @see SystemRuleManager
+ * 系统保护规则
  */
 public class SystemRule extends AbstractRule {
 
     /**
      * negative value means no threshold checking.
      */
-    private double highestSystemLoad = -1;
+    private double highestSystemLoad = -1; //load1 阈值，参考值
     /**
      * cpu usage, between [0, 1]
      */
-    private double highestCpuUsage = -1;
-    private double qps = -1;
-    private long avgRt = -1;
-    private long maxThread = -1;
+    private double highestCpuUsage = -1;   //当前系统的 CPU 使用率（0.0-1.0
+    private double qps = -1;               //所有入口资源的 QPS
+    private long avgRt = -1;               //所有入口流量的平均响应时间
+    private long maxThread = -1;           //入口流量的最大并发数
 
     public double getQps() {
         return qps;

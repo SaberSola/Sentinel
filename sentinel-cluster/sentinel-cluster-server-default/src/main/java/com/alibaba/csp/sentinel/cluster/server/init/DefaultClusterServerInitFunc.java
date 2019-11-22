@@ -31,6 +31,7 @@ import com.alibaba.csp.sentinel.log.RecordLog;
 /**
  * @author Eric Zhao
  * @since 1.4.0
+ * 集群客户端
  */
 public class DefaultClusterServerInitFunc implements InitFunc {
 

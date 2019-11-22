@@ -37,7 +37,7 @@ import com.alibaba.fastjson.TypeReference;
  * in `META-INF/services/` directory of the resource directory. Then the data source will be automatically
  * registered during the initialization of Sentinel.
  * </p>
- *
+ * 文件规则
  * @author Eric Zhao
  */
 public class FileDataSourceInit implements InitFunc {

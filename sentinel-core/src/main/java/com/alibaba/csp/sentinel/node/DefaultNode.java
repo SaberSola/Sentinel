@@ -31,10 +31,21 @@ import com.alibaba.csp.sentinel.slots.nodeselector.NodeSelectorSlot;
  * Each distinct resource in each distinct {@link Context} will corresponding to a {@link DefaultNode}.
  * </p>
  * <p>
+ *  一个节点，用于保存特定Context中特定资源名称的统计信息。
+ *  每个不同的Context中的每个不同的资源将对应一个DefaultNode。
+ * </p>
+ * <p>
  * This class may have a list of sub {@link DefaultNode}s. Child nodes will be created when
  * calling {@link SphU}#entry() or {@link SphO}@entry() multiple times in the same {@link Context}.
  * </p>
- *
+ * <p>
+ *   此类可能包含子DefaultNode的列表。子节点将在以下时间创建
+ *  在同一Context中多次调用SphU.entry（）或SphO.entry（）
+ * </p>
+ * <p>
+ * This class may have a list of sub {@link DefaultNode}s. Child nodes will be created when
+ * calling {@link SphU}#entry() or {@link SphO}@entry() multiple times in the same {@link Context}.
+ * </p>
  * @author qinan.qn
  * @see NodeSelectorSlot
  */
@@ -43,17 +54,17 @@ public class DefaultNode extends StatisticNode {
     /**
      * The resource associated with the node.
      */
-    private ResourceWrapper id;
+    private ResourceWrapper id;//资源Id
 
     /**
      * The list of all child nodes.
      */
-    private volatile Set<Node> childList = new HashSet<>();
+    private volatile Set<Node> childList = new HashSet<>();//子节点
 
     /**
-     * Associated cluster node.
+     * 关联的群集节点。
      */
-    private ClusterNode clusterNode;
+    private ClusterNode clusterNode;//集群节点
 
     public DefaultNode(ResourceWrapper id, ClusterNode clusterNode) {
         this.id = id;

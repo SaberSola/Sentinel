@@ -33,6 +33,7 @@ import com.alibaba.csp.sentinel.slots.nodeselector.NodeSelectorSlot;
 /**
  * Utility class to get or create {@link Context} in current thread.
  *
+ *  上下文切换
  * <p>
  * Each {@link SphU}#entry() or {@link SphO}#entry() should be in a {@link Context}.
  * If we don't invoke {@link ContextUtil}#enter() explicitly, DEFAULT context will be used.
@@ -59,6 +60,7 @@ public class ContextUtil {
 
     static {
         // Cache the entrance node for default context.
+        //cache 起点的node
         initDefaultContext();
     }
 
@@ -116,7 +118,7 @@ public class ContextUtil {
         }
         return trueEnter(name, origin);
     }
-
+    //创建上下文
     protected static Context trueEnter(String name, String origin) {
         Context context = contextHolder.get();
         if (context == null) {

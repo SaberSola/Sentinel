@@ -23,7 +23,8 @@ import com.alibaba.csp.sentinel.slotchain.ResourceWrapper;
 
 /**
  * A {@link ProcessorSlot} dedicates to {@link DegradeRule} checking.
- *
+ * 这个 slot 主要针对资源的平均响应时间（RT）以及异常比率，来决定资源是否在接下来的时间被自动熔断掉。
+ * System
  * @author leyou
  */
 public class DegradeSlot extends AbstractLinkedProcessorSlot<DefaultNode> {

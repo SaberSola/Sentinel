@@ -31,6 +31,7 @@ import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
 
 /**
  * @author jialiang.linjl
+ * QPS的限流
  */
 public class FlowQpsDemo {
 
@@ -49,9 +50,32 @@ public class FlowQpsDemo {
     public static void main(String[] args) throws Exception {
         initFlowQpsRule();
 
-        tick();
+       // tick();
         // first make the system run on a very low condition
-        simulateTraffic();
+        Entry entry = null;
+
+        try {
+            entry = SphU.entry(KEY);
+            // token acquired, means pass
+            pass.addAndGet(1);
+        } catch (BlockException e1) {
+            block.incrementAndGet();
+        } catch (Exception e2) {
+            // biz exception
+        } finally {
+            total.incrementAndGet();
+            if (entry != null) {
+                entry.exit();
+            }
+        }
+
+        Random random2 = new Random();
+        try {
+            TimeUnit.MILLISECONDS.sleep(random2.nextInt(50));
+        } catch (InterruptedException e) {
+            // ignore
+        }
+        //simulateTraffic();
 
         System.out.println("===== begin to do flow control");
         System.out.println("only 20 requests per second can pass");
@@ -63,7 +87,7 @@ public class FlowQpsDemo {
         FlowRule rule1 = new FlowRule();
         rule1.setResource(KEY);
         // set limit qps to 20
-        rule1.setCount(20);
+        rule1.setCount(20);//设置QPS 20
         rule1.setGrade(RuleConstant.FLOW_GRADE_QPS);
         rule1.setLimitApp("default");
         rules.add(rule1);
@@ -71,11 +95,14 @@ public class FlowQpsDemo {
     }
 
     private static void simulateTraffic() {
-        for (int i = 0; i < threadCount; i++) {
+       /* for (int i = 0; i < threadCount; i++) {
             Thread t = new Thread(new RunTask());
             t.setName("simulate-traffic-Task");
             t.start();
-        }
+        }*/
+        Thread t = new Thread(new RunTask());
+        t.setName("simulate-traffic-Task");
+        t.start();
     }
 
     private static void tick() {
@@ -132,7 +159,7 @@ public class FlowQpsDemo {
     static class RunTask implements Runnable {
         @Override
         public void run() {
-            while (!stop) {
+            //while (!stop) {
                 Entry entry = null;
 
                 try {
@@ -156,7 +183,7 @@ public class FlowQpsDemo {
                 } catch (InterruptedException e) {
                     // ignore
                 }
-            }
+            //}
         }
     }
 }

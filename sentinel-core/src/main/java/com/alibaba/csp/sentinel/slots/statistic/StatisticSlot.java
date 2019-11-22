@@ -43,8 +43,11 @@ import com.alibaba.csp.sentinel.slots.block.BlockException;
  * </ul>
  * </p>
  *
+ * 用于统计实时的调用数据。
  * @author jialiang.linjl
  * @author Eric Zhao
+ * Sentinel 底层采用高性能的滑动窗口数据结构 LeapArray
+ * 来统计实时的秒级指标数据，可以很好地支撑写多于读的高并发场景
  */
 public class StatisticSlot extends AbstractLinkedProcessorSlot<DefaultNode> {
 

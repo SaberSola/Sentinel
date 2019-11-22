@@ -27,10 +27,10 @@ import com.alibaba.csp.sentinel.util.AssertUtil;
  */
 public abstract class ResourceWrapper {
 
-    protected final String name;
+    protected final String name; //资源名称
 
-    protected final EntryType entryType;
-    protected final int resourceType;
+    protected final EntryType entryType; //Entry类型
+    protected final int resourceType;    //资源类型
 
     public ResourceWrapper(String name, EntryType entryType, int resourceType) {
         AssertUtil.notEmpty(name, "resource name cannot be empty");

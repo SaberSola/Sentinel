@@ -34,6 +34,7 @@ import com.alibaba.csp.sentinel.init.InitOrder;
 @InitOrder(0)
 public class DefaultClusterClientInitFunc implements InitFunc {
 
+
     @Override
     public void init() throws Exception {
         initDefaultEntityWriters();

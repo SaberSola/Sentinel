@@ -38,6 +38,10 @@ import com.alibaba.csp.sentinel.context.Context;
  * A invocation tree will be created if we invoke SphU#entry() multi times in the same {@link Context},
  * so parent or child entry may be held by this to form the tree. Since {@link Context} always holds
  * the current entry in the invocation tree, every {@link Entry#exit()} call should modify
+ *
+ *  如果我们在同一{@link Context}中多次调用SphU＃entry（），则会创建一个调用树，
+ *  因此，父级或子级条目可以由此保留以形成树。由于{@link Context}始终成立
+ *  调用树中的当前条目，每个{@link Entry＃exit（）}调用都应修改
  * {@link Context#setCurEntry(Entry)} as parent entry of this.
  * </p>
  *
@@ -52,14 +56,14 @@ public abstract class Entry implements AutoCloseable {
 
     private static final Object[] OBJECTS0 = new Object[0];
 
-    private long createTime;
-    private Node curNode;
+    private long createTime; //创建该Entry的时间戳
+    private Node curNode;    //当前Entry的哪个节点
     /**
      * {@link Node} of the specific origin, Usually the origin is the Service Consumer.
      */
-    private Node originNode;
+    private Node originNode; //源节点
     private Throwable error;
-    protected ResourceWrapper resourceWrapper;
+    protected ResourceWrapper resourceWrapper; //Entry关联的资源信息。
 
     public Entry(ResourceWrapper resourceWrapper) {
         this.resourceWrapper = resourceWrapper;
