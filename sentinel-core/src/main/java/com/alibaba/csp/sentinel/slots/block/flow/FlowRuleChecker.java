@@ -69,14 +69,17 @@ public class FlowRuleChecker {
         }
 
         if (rule.isClusterMode()) {
+            //todo 集群check
             return passClusterCheck(rule, context, node, acquireCount, prioritized);
         }
 
+        //todo本地check
         return passLocalCheck(rule, context, node, acquireCount, prioritized);
     }
 
     private static boolean passLocalCheck(FlowRule rule, Context context, DefaultNode node, int acquireCount,
                                           boolean prioritized) {
+        //选择节点信息
         Node selectedNode = selectNodeByRequesterAndStrategy(rule, context, node);
         if (selectedNode == null) {
             return true;
@@ -144,6 +147,7 @@ public class FlowRuleChecker {
         return null;
     }
 
+    //远程过去发号器
     private static boolean passClusterCheck(FlowRule rule, Context context, DefaultNode node, int acquireCount,
                                             boolean prioritized) {
         try {

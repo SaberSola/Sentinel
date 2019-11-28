@@ -301,7 +301,7 @@ public class StatisticNode implements Node {
     public void debug() {
         rollingCounterInSecond.debug();
     }
-
+    //滑动窗口
     @Override
     public long tryOccupyNext(long currentTime, int acquireCount, double threshold) {
         double maxCount = threshold * IntervalProperty.INTERVAL / 1000;
