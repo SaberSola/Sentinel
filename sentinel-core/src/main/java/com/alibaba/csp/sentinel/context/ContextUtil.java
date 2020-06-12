@@ -47,11 +47,13 @@ public class ContextUtil {
 
     /**
      * Store the context in ThreadLocal for easy access.
+     * 整个线程的Context
      */
     private static ThreadLocal<Context> contextHolder = new ThreadLocal<>();
 
     /**
      * Holds all {@link EntranceNode}. Each {@link EntranceNode} is associated with a distinct context name.
+     * 、
      */
     private static volatile Map<String, DefaultNode> contextNameNodeMap = new HashMap<>();
 
@@ -65,10 +67,11 @@ public class ContextUtil {
     }
 
     private static void initDefaultContext() {
-        String defaultContextName = Constants.CONTEXT_DEFAULT_NAME;
+        String defaultContextName = Constants.CONTEXT_DEFAULT_NAME;//上下文对应的名称
+        //入口节点
         EntranceNode node = new EntranceNode(new StringResourceWrapper(defaultContextName, EntryType.IN), null);
         Constants.ROOT.addChild(node);
-        contextNameNodeMap.put(defaultContextName, node);
+        contextNameNodeMap.put(defaultContextName, node);//添加默认上下文
     }
 
     /**
@@ -120,7 +123,7 @@ public class ContextUtil {
     }
     //创建上下文
     protected static Context trueEnter(String name, String origin) {
-        Context context = contextHolder.get();
+        Context context = contextHolder.get();//从ThreadLocal中获取上下文
         if (context == null) {
             Map<String, DefaultNode> localCacheNameMap = contextNameNodeMap;
             DefaultNode node = localCacheNameMap.get(name);

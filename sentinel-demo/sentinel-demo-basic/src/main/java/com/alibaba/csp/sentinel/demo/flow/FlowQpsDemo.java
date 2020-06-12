@@ -53,7 +53,6 @@ public class FlowQpsDemo {
        // tick();
         // first make the system run on a very low condition
         Entry entry = null;
-
         try {
             entry = SphU.entry(KEY);
             // token acquired, means pass
@@ -89,8 +88,10 @@ public class FlowQpsDemo {
         // set limit qps to 20
         rule1.setCount(20);//设置QPS 20
         rule1.setGrade(RuleConstant.FLOW_GRADE_QPS);
+        rule1.setControlBehavior(RuleConstant.CONTROL_BEHAVIOR_RATE_LIMITER);
         rule1.setLimitApp("default");
         rules.add(rule1);
+        //加载规则
         FlowRuleManager.loadRules(rules);
     }
 

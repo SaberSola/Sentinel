@@ -29,13 +29,13 @@ import com.alibaba.csp.sentinel.util.function.Predicate;
 
 /**
  * The basic metric class in Sentinel using a {@link BucketLeapArray} internal.
- *
+ * 滑动窗口的核心实现类
  * @author jialiang.linjl
  * @author Eric Zhao
  */
 public class ArrayMetric implements Metric {
 
-    private final LeapArray<MetricBucket> data;
+    private final LeapArray<MetricBucket> data;//用来存储各个窗口的数据
 
     public ArrayMetric(int sampleCount, int intervalInMs) {
         this.data = new OccupiableBucketLeapArray(sampleCount, intervalInMs);

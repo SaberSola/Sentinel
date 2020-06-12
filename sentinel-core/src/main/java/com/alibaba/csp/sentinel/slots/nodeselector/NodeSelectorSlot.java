@@ -154,24 +154,33 @@ public class NodeSelectorSlot extends AbstractLinkedProcessorSlot<Object> {
          * The answer is all {@link DefaultNode}s with same resource name share one
          * {@link ClusterNode}. See {@link ClusterBuilderSlot} for detail.
          */
+        //根据上下文的名称获取Node
+        //多线程环境下,每一个线程都会创建一个Node
+        //只要资源名相同，则context的名称也相同，那么获取到的节点就相同
+        //NodeSelectorSlot ----->  ClusterBuilderSlot
         DefaultNode node = map.get(context.getName());
         if (node == null) {
             synchronized (this) {
                 node = map.get(context.getName());
                 if (node == null) {
-                    node = new DefaultNode(resourceWrapper, null);
+                    // 如果当前「上下文」中没有该节点，则创建一个DefaultNode节点
+                    node = new DefaultNode(resourceWrapper, null);//没有节点的话则生成默认节点
                     HashMap<String, DefaultNode> cacheMap = new HashMap<String, DefaultNode>(map.size());
                     cacheMap.putAll(map);
                     cacheMap.put(context.getName(), node);
                     map = cacheMap;
                     // Build invocation tree
+                    // 将当前node作为「上下文」的最后一个节点的子节点添加进去
+                    // 如果context的curEntry.parent.curNode为null，则添加到entranceNode中去
+                    // 否则添加到context的curEntry.parent.curNode中去
                     ((DefaultNode) context.getLastNode()).addChild(node);
                 }
 
             }
         }
-
+        //设置当前的节点node
         context.setCurNode(node);
+        //进入下一个slot
         fireEntry(context, resourceWrapper, node, count, prioritized, args);
     }
 

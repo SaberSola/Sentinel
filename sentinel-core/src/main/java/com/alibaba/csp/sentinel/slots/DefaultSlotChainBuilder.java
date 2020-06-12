@@ -39,14 +39,14 @@ public class DefaultSlotChainBuilder implements SlotChainBuilder {
     @Override
     public ProcessorSlotChain build() {
         ProcessorSlotChain chain = new DefaultProcessorSlotChain();
-        chain.addLast(new NodeSelectorSlot());//
-        chain.addLast(new ClusterBuilderSlot());
-        chain.addLast(new LogSlot());
-        chain.addLast(new StatisticSlot());
-        chain.addLast(new AuthoritySlot());
-        chain.addLast(new SystemSlot());
-        chain.addLast(new FlowSlot());
-        chain.addLast(new DegradeSlot());
+        chain.addLast(new NodeSelectorSlot());//主要用于构建调用链。
+        chain.addLast(new ClusterBuilderSlot()); //用于集群限流、熔断。
+        chain.addLast(new LogSlot());  //记录日志
+        chain.addLast(new StatisticSlot()); //用于实时收集实时消息。
+        chain.addLast(new AuthoritySlot()); //用于权限校验
+        chain.addLast(new SystemSlot()); //用于验证系统级别的规则。
+        chain.addLast(new FlowSlot());   //实现限流机制
+        chain.addLast(new DegradeSlot()); //实现熔断机制。
 
         return chain;
     }

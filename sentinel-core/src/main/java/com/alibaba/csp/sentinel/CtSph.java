@@ -125,7 +125,7 @@ public class CtSph implements Sph {
      */
     private Entry entryWithPriority(ResourceWrapper resourceWrapper, int count, boolean prioritized, Object... args)
         throws BlockException {
-        Context context = ContextUtil.getContext();
+        Context context = ContextUtil.getContext();//获取上下文
         if (context instanceof NullContext) {
             // The {@link NullContext} indicates that the amount of context has exceeded the threshold,
             // so here init the entry only. No rule checking will be done.
@@ -142,7 +142,7 @@ public class CtSph implements Sph {
             return new CtEntry(resourceWrapper, null, context);
         }
 
-        ProcessorSlot<Object> chain = lookProcessChain(resourceWrapper);
+        ProcessorSlot<Object> chain = lookProcessChain(resourceWrapper);//创建调用链
 
         /*
          * Means amount of resources (slot chain) exceeds {@link Constants.MAX_SLOT_CHAIN_SIZE},
@@ -152,7 +152,7 @@ public class CtSph implements Sph {
             return new CtEntry(resourceWrapper, null, context);
         }
 
-        Entry e = new CtEntry(resourceWrapper, chain, context);
+        Entry e = new CtEntry(resourceWrapper, chain, context);//生成调用条蜜
         try {
             chain.entry(context, resourceWrapper, null, count, prioritized, args);
         } catch (BlockException e1) {
@@ -201,7 +201,7 @@ public class CtSph implements Sph {
      * @return {@link ProcessorSlotChain} of the resource
      */
     ProcessorSlot<Object> lookProcessChain(ResourceWrapper resourceWrapper) {
-        ProcessorSlotChain chain = chainMap.get(resourceWrapper);
+        ProcessorSlotChain chain = chainMap.get(resourceWrapper);//从缓存中获取 key是资源包装类 value是调用链
         if (chain == null) {
             synchronized (LOCK) {
                 chain = chainMap.get(resourceWrapper);
@@ -211,7 +211,7 @@ public class CtSph implements Sph {
                         return null;
                     }
                     //
-                    chain = SlotChainProvider.newSlotChain();
+                    chain = SlotChainProvider.newSlotChain();//声生成调用链
                     Map<ResourceWrapper, ProcessorSlotChain> newMap = new HashMap<ResourceWrapper, ProcessorSlotChain>(
                         chainMap.size() + 1);
                     newMap.putAll(chainMap);

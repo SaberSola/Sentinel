@@ -66,12 +66,14 @@ public class ClusterBuilderSlot extends AbstractLinkedProcessorSlot<DefaultNode>
      * at the very beginning while concurrent map will hold the lock all the time.
      * </p>
      */
+    //一个资源一个集群node
     private static volatile Map<ResourceWrapper, ClusterNode> clusterNodeMap = new HashMap<>();
 
     private static final Object lock = new Object();
 
     private volatile ClusterNode clusterNode = null;
 
+    // ClusterBuilderSlot ----> LogSlot
     @Override
     public void entry(Context context, ResourceWrapper resourceWrapper, DefaultNode node, int count,
                       boolean prioritized, Object... args)
@@ -80,7 +82,7 @@ public class ClusterBuilderSlot extends AbstractLinkedProcessorSlot<DefaultNode>
             synchronized (lock) {
                 if (clusterNode == null) {
                     // Create the cluster node.
-                    clusterNode = new ClusterNode(resourceWrapper.getName(), resourceWrapper.getResourceType());
+                    clusterNode = new ClusterNode(resourceWrapper.getName(), resourceWrapper.getResourceType());//创建集群node
                     HashMap<ResourceWrapper, ClusterNode> newMap = new HashMap<>(Math.max(clusterNodeMap.size(), 16));
                     newMap.putAll(clusterNodeMap);
                     newMap.put(node.getId(), clusterNode);

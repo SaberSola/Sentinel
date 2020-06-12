@@ -56,7 +56,9 @@ public class FlowRuleManager {
         new NamedThreadFactory("sentinel-metrics-record-task", true));
 
     static {
+        //增加监听
         currentProperty.addListener(LISTENER);
+        //
         SCHEDULER.scheduleAtFixedRate(new MetricTimerListener(), 0, 1, TimeUnit.SECONDS);
     }
 
@@ -128,6 +130,7 @@ public class FlowRuleManager {
 
         @Override
         public void configUpdate(List<FlowRule> value) {
+            //更新规则
             Map<String, List<FlowRule>> rules = FlowRuleUtil.buildFlowRuleMap(value);
             if (rules != null) {
                 flowRules.clear();

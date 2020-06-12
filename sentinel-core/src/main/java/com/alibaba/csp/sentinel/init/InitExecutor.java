@@ -37,6 +37,7 @@ public final class InitExecutor {
      * will immediately be interrupted and the application will exit.
      *
      * The initialization will be executed only once.
+     * init 方法
      */
     public static void doInit() {
         if (!initialized.compareAndSet(false, true)) {

@@ -25,6 +25,9 @@ import com.alibaba.csp.sentinel.slots.statistic.data.MetricBucket;
 /**
  * @author jialiang.linjl
  * @since 1.5.0
+ * 所谓的 OccupiableBucketLeapArray ，
+ * 实现的思想是当前抽样统计中的“令牌”已耗尽，即达到用户设定的相关指标的阔值后，
+ * 可以向下一个时间窗口，即借用未来一个采样区间
  */
 public class OccupiableBucketLeapArray extends LeapArray<MetricBucket> {
 

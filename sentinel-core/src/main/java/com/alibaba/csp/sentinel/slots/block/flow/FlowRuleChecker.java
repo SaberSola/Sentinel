@@ -118,7 +118,7 @@ public class FlowRuleChecker {
     static Node selectNodeByRequesterAndStrategy(/*@NonNull*/ FlowRule rule, Context context, DefaultNode node) {
         // The limit app should not be empty.
         String limitApp = rule.getLimitApp();
-        int strategy = rule.getStrategy();
+        int strategy = rule.getStrategy();//获取限流策略
         String origin = context.getOrigin();
 
         if (limitApp.equals(origin) && filterOrigin(origin)) {

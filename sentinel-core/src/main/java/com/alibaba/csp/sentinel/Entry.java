@@ -51,6 +51,8 @@ import com.alibaba.csp.sentinel.context.Context;
  * @see SphU
  * @see Context
  * @see ContextUtil
+ *
+ * entry可以理解为一个调用的token
  */
 public abstract class Entry implements AutoCloseable {
 
