@@ -106,6 +106,7 @@ public class ArrayMetric implements Metric {
 
     @Override
     public long pass() {
+        //当前时间窗口
         data.currentWindow();
         long pass = 0;
         List<MetricBucket> list = data.values();
