@@ -63,12 +63,15 @@ final class ClusterFlowChecker {
         if (metric == null) {
             return new TokenResult(TokenResultStatus.FAIL);
         }
-
+        //当前的qps
         double latestQps = metric.getAvg(ClusterFlowEvent.PASS);
+        //限流的阈值
         double globalThreshold = calcGlobalThreshold(rule) * ClusterServerConfigManager.getExceedCount();
+        //剩下的值
         double nextRemaining = globalThreshold - latestQps - acquireCount;
 
         if (nextRemaining >= 0) {
+            //直接返回成功
             // TODO: checking logic and metric operation should be separated.
             metric.add(ClusterFlowEvent.PASS, acquireCount);
             metric.add(ClusterFlowEvent.PASS_REQUEST, 1);
