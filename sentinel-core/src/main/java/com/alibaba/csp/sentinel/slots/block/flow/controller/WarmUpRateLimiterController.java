@@ -21,6 +21,7 @@ import com.alibaba.csp.sentinel.node.Node;
 import com.alibaba.csp.sentinel.util.TimeUtil;
 
 /**
+ * 固定时间 匀速排队
  * @author jialiang.linjl
  * @since 1.4.0
  */
@@ -54,7 +55,7 @@ public class WarmUpRateLimiterController extends WarmUpController {
 
             // current interval = restToken*slope+1/count
             double warmingQps = Math.nextUp(1.0 / (aboveToken * slope + 1.0 / count));
-            costTime = Math.round(1.0 * (acquireCount) / warmingQps * 1000);
+            costTime = Math.round(1.0 * (acquireCount) / warmingQps * 1000); //斜率控制
         } else {
             costTime = Math.round(1.0 * (acquireCount) / count * 1000);
         }
@@ -64,6 +65,7 @@ public class WarmUpRateLimiterController extends WarmUpController {
             latestPassedTime.set(currentTime);
             return true;
         } else {
+            //
             long waitTime = costTime + latestPassedTime.get() - currentTime;
             if (waitTime > timeoutInMs) {
                 return false;

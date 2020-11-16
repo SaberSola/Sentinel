@@ -54,20 +54,24 @@ public class RateLimiterController implements TrafficShapingController {
             return false;
         }
 
+        //获取当前时间戳
         long currentTime = TimeUtil.currentTimeMillis();
         // Calculate the interval between every two requests.
         long costTime = Math.round(1.0 * (acquireCount) / count * 1000);
 
         // Expected pass time of this request.
+        //花费的时间 + 最近一次获取到的实际那
         long expectedTime = costTime + latestPassedTime.get();
-
+        //期望的时间 < 当前时间 直接通过
         if (expectedTime <= currentTime) {
             // Contention may exist here, but it's okay.
             latestPassedTime.set(currentTime);
             return true;
         } else {
             // Calculate the time to wait.
+            //计算等待时间  花费时间 + 上次获取时间 - 当前时间
             long waitTime = costTime + latestPassedTime.get() - TimeUtil.currentTimeMillis();
+            //等待时间 > 时间窗口未读
             if (waitTime > maxQueueingTimeMs) {
                 return false;
             } else {
