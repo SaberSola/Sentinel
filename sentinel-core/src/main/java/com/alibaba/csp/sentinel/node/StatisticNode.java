@@ -126,7 +126,7 @@ public class StatisticNode implements Node {
      */
     private LongAdder curThreadNum = new LongAdder();//线程数
 
-    /**
+    /**git
      * The last timestamp when metrics were fetched.
      */
     private long lastFetchTime = -1;
