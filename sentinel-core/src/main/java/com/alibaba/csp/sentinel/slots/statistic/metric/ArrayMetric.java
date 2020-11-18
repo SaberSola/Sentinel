@@ -35,6 +35,7 @@ import com.alibaba.csp.sentinel.util.function.Predicate;
  */
 public class ArrayMetric implements Metric {
 
+    //存储指标的筒子
     private final LeapArray<MetricBucket> data;//用来存储各个窗口的数据
 
     public ArrayMetric(int sampleCount, int intervalInMs) {
@@ -43,6 +44,7 @@ public class ArrayMetric implements Metric {
 
     public ArrayMetric(int sampleCount, int intervalInMs, boolean enableOccupy) {
         if (enableOccupy) {
+            //可以借用未来区间的筒子
             this.data = new OccupiableBucketLeapArray(sampleCount, intervalInMs);
         } else {
             this.data = new BucketLeapArray(sampleCount, intervalInMs);

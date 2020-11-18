@@ -33,6 +33,11 @@ public class OccupiableBucketLeapArray extends LeapArray<MetricBucket> {
 
     private final FutureBucketLeapArray borrowArray;
 
+    /**
+     * 从构造函数可以看出，不仅创建了一个常规的 LeapArray，对应一个采集周期，还会创建一个 borrowArray ，也会包含一个采集周期。
+     * @param sampleCount
+     * @param intervalInMs
+     */
     public OccupiableBucketLeapArray(int sampleCount, int intervalInMs) {
         // This class is the original "CombinedBucketArray".
         super(sampleCount, intervalInMs);
@@ -41,8 +46,9 @@ public class OccupiableBucketLeapArray extends LeapArray<MetricBucket> {
 
     @Override
     public MetricBucket newEmptyBucket(long time) {
+        //首先新建一个 MetricBucket。
         MetricBucket newBucket = new MetricBucket();
-
+       //在新建的时候，如果曾经有借用过未来的滑动窗口，则将未来的滑动窗口上收集的数据 copy 到新创建的采集指标上，再返回。
         MetricBucket borrowBucket = borrowArray.getWindowValue(time);
         if (borrowBucket != null) {
             newBucket.reset(borrowBucket);
@@ -51,9 +57,16 @@ public class OccupiableBucketLeapArray extends LeapArray<MetricBucket> {
         return newBucket;
     }
 
+    /**
+     * 重置窗口
+     * @param w
+     * @param time
+     * @return
+     */
     @Override
     protected WindowWrap<MetricBucket> resetWindowTo(WindowWrap<MetricBucket> w, long time) {
         // Update the start time and reset value.
+        //遇到过期的滑动窗口时，需要对滑动窗口进行重置，这里的思路和 newEmptyBucket 的核心思想是一样的，即如果存在已借用的情况，在重置后需要加上在未来已使用过的许可
         w.resetTo(time);
         MetricBucket borrowBucket = borrowArray.getWindowValue(time);
         if (borrowBucket != null) {
@@ -66,8 +79,13 @@ public class OccupiableBucketLeapArray extends LeapArray<MetricBucket> {
         return w;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public long currentWaiting() {
+        //当前的windowds
         borrowArray.currentWindow();
         long currentWaiting = 0;
         List<MetricBucket> list = borrowArray.values();
@@ -78,6 +96,7 @@ public class OccupiableBucketLeapArray extends LeapArray<MetricBucket> {
         return currentWaiting;
     }
 
+    //获取借用的
     @Override
     public void addWaiting(long time, int acquireCount) {
         WindowWrap<MetricBucket> window = borrowArray.currentWindow(time);

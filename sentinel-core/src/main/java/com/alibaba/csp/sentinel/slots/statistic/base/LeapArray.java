@@ -71,7 +71,7 @@ public abstract class LeapArray<T> {
         this.windowLengthInMs = intervalInMs / sampleCount;
         this.intervalInMs = intervalInMs;//时间间隔
         this.sampleCount = sampleCount;  //样本数 滑动窗口的数量
-
+        //时间窗口的集合
         this.array = new AtomicReferenceArray<>(sampleCount);
     }
 
@@ -147,7 +147,7 @@ public abstract class LeapArray<T> {
         if (timeMillis < 0) {
             return null;
         }
-         //计算出所在的时间窗口的下标
+         //计算出所在的时间窗口的下标 、
         int idx = calculateTimeIdx(timeMillis);
         // Calculate current bucket start time.
         //获取时间窗口的起始时间
